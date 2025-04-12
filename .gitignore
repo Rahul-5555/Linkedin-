@@ -1,0 +1,12 @@
+# System files
+.DS_Store
+
+# Logs
+*.log
+
+# Ignore frontend and backend dependencies and env files (if you prefer globally)
+frontend/node_modules/
+frontend/.env
+backend/node_modules/
+backend/.env
+project.md
