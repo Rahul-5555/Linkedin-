@@ -1,11 +1,16 @@
 {
   "cSpell.words": [
+    "deleteone",
     "firstname",
     "getpost",
     "getstatus",
+    "handledelete",
     "kumar",
     "lastname",
+    "noti",
+    "Profle",
     "sendconnection",
+    "suggestedusers",
     "updateprofile"
   ]
 }

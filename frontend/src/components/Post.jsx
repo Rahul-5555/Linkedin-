@@ -7,22 +7,24 @@ import { LuSendHorizontal } from "react-icons/lu";
 import { FaRegCommentDots } from "react-icons/fa6";
 import { authDataContext } from '../context/AuthContext';
 import axios from 'axios'
-import { userDataContext } from '../context/UserContext';
 import { io } from 'socket.io-client'
+import { userDataContext } from '../context/UserContext';
 import ConnectionButton from './ConnectionButton';
 
-let socket = io("http://localhost:8000")
+
 
 
 function Post({ id, author, likes, comment, description, image, createdAt }) {
 
   let [readMore, setReadMore] = useState(false)
   let { serverUrl } = useContext(authDataContext)
-  let { userData, setUserdata, getPost } = useContext(userDataContext)
-  let [like, setLike] = useState(likes || [])
+  let { userData, setUserdata, getPost, handleGetProfile } = useContext(userDataContext)
+  let [like, setLike] = useState([])
+  let [comments, setComments] = useState([])
   let [commentContent, setCommentContent] = useState("")
-  let [comments, setComments] = useState(comment || [])
   let [showComment, setShowComment] = useState(false)
+  const socket = io(serverUrl)
+
 
   const handleLike = async () => {
     try {
@@ -71,21 +73,18 @@ function Post({ id, author, likes, comment, description, image, createdAt }) {
     }
   }, [id])
 
-
-
-
-
-
   useEffect(() => {
-    getPost();
-  }, [like, setLike, comments])
+    setLike(likes)
+    setComments(comment)
+  }, [likes, comment])
+
 
   return (
     <div className='w-full min-h-[200px] flex flex-col gap-[10px] bg-white rounded-lg shadow-lg p-[20px]'>
 
       <div className='flex justify-between items-center'>
         {/* profile image + name/headline */}
-        <div className='flex items-center gap-[10px]'>
+        <div className='flex items-center gap-[10px]' onClick={() => handleGetProfile(author.userName)} >
           {/* profile image */}
           <div className='w-[70px] h-[70px] rounded-full overflow-hidden flex items-center justify-center border-2 border-white cursor-pointer'>
             <img className='h-full' src={author.profileImage || profile_image} alt="profile" />

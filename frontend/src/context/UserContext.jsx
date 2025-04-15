@@ -1,6 +1,11 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { authDataContext } from './AuthContext'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+import { io } from 'socket.io-client'
+
+
+export let socket = io("http://localhost:8000")
 
 export const userDataContext = createContext()
 const UserContext = ({ children }) => {
@@ -8,6 +13,8 @@ const UserContext = ({ children }) => {
   let { serverUrl } = useContext(authDataContext)
   let [edit, setEdit] = useState(false)
   let [postData, setPostData] = useState([])
+  let [profileData, setProfileData] = useState([])
+  let navigate = useNavigate()
 
   const getCurrentUser = async () => {
     try {
@@ -15,7 +22,6 @@ const UserContext = ({ children }) => {
         withCredentials: true
       })
       setUserData(result.data.user)
-      console.log(result)
 
     } catch (error) {
       console.log(error)
@@ -36,6 +42,19 @@ const UserContext = ({ children }) => {
     }
   }
 
+  // get userProfile when i click on another userName
+  const handleGetProfile = async (userName) => {
+    try {
+      let result = await axios.get(serverUrl + `/api/user/profile/${userName}`, {
+        withCredentials: true
+      })
+      setProfileData(result.data)
+      navigate("/profile")
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
     getCurrentUser();
     getPost()
@@ -45,7 +64,10 @@ const UserContext = ({ children }) => {
     userData,
     setUserData,
     edit, setEdit,
-    postData, setPostData, getPost
+    postData, setPostData, getPost,
+    handleGetProfile,
+    profileData, setProfileData
+
   }
   return (
 

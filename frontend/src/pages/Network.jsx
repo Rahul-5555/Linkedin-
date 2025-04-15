@@ -26,7 +26,7 @@ const Network = () => {
       let result = await axios.put(`${serverUrl}/api/connection/accept/${requestId}`, {},
         { withCredentials: true }
       )
-      setConnections(connections.filter((con) => con._id == requestId))
+      setConnections(connections.filter((con) => con._id !== requestId))
       console.log(result)
     } catch (error) {
       console.log(error)
@@ -44,6 +44,8 @@ const Network = () => {
     }
   }
 
+
+
   useEffect(() => {
     handleGetRequests()
   }, [])
@@ -56,7 +58,7 @@ const Network = () => {
       </div>
 
       {
-        connections.length > 0 && <div className='w-[100%] max-w-[900px] shadow-lg rounded-lg flex flex-col gap-[20px] min-h-[100px]'>
+        connections.length > 0 && <div className='w-[100%] max-w-[900px] bg-white shadow-lg rounded-lg flex flex-col gap-[20px] min-h-[100px]'>
           {connections.map((connection, index) => (
             <div className='w-full min-h-[100px] p-[20px] flex justify-between items-center'>
               {/* Left div for profile */}

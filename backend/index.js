@@ -9,6 +9,7 @@ import postRouter from './routes/post.route.js'
 import connectionRouter from './routes/connection.route.js'
 import http from 'http'
 import { Server } from 'socket.io'
+import notificationRouter from './routes/notification.route.js'
 dotenv.config()
 
 let app = express()
@@ -34,7 +35,7 @@ app.use("/api/auth", authRouter)
 app.use("/api/user", userRouter)
 app.use("/api/post", postRouter)
 app.use("/api/connection", connectionRouter)
-
+app.use("/api/notification", notificationRouter)
 // for user connection/request
 export const userSocketMap = new Map()
 

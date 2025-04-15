@@ -1,17 +1,21 @@
 import Connection from "../models/connection.model.js";
 import User from "../models/user.model.js";
 import { io, userSocketMap } from "../index.js";
+import Notification from "../models/notification.model.js";
 
 export const sendConnection = async (req, res) => {
   try {
-    const { userId } = req.params;
-    const sender = req.userId;
+    const { userId } = req.params; // receiver's ID from URL
+    console.log("Receiver Id", userId)
+    const sender = req.userId; // sender's ID from token (middleware)
+    console.log("sender id from token(middleware)", sender)
 
     if (sender === userId) {
       return res.status(400).json({ message: "You cannot send a request to yourself." });
     }
 
-    const senderUser = await User.findById(sender);
+    const senderUser = await User.findById(sender);  // find the sender
+    console.log("Sender User", senderUser)
     if (!senderUser) {
       return res.status(404).json({ message: "Sender user not found." });
     }
@@ -20,6 +24,7 @@ export const sendConnection = async (req, res) => {
       return res.status(400).json({ message: "You are already connected." });
     }
 
+    // Checks if a pending connection request already exists between these users.,Uses the Connection model to query existing connections.,This avoids duplicate requests.
     const existingConnection = await Connection.findOne({
       sender,
       receiver: userId,
@@ -32,8 +37,12 @@ export const sendConnection = async (req, res) => {
 
     const newRequest = await Connection.create({ sender, receiver: userId });
 
+    // Retrieves the socket IDs of both sender and receiver from a userSocketMap, which is probably a global map to track connected users and their sockets (WebSocket/Socket.IO).
     const receiverSocketId = userSocketMap.get(userId);
     const senderSocketId = userSocketMap.get(sender);
+
+    // If the receiver is online (i.e., has a socket connection), we send them a real-time event called "statusUpdate" using Socket.IO.
+    // updateUserId tells them who sent the request, and newStatus: "received" lets them know they’ve received a new request.
 
     if (receiverSocketId) {
       io.to(receiverSocketId).emit("statusUpdate", {
@@ -42,6 +51,7 @@ export const sendConnection = async (req, res) => {
       });
     }
 
+    // If the sender is online, they are also notified that the request is now in pending status (awaiting acceptance or rejection).
     if (senderSocketId) {
       io.to(senderSocketId).emit("statusUpdate", {
         updateUserId: userId,
@@ -58,8 +68,9 @@ export const sendConnection = async (req, res) => {
 export const acceptConnection = async (req, res) => {
   try {
     const { connectionId } = req.params;
+    let userid = req.userId
 
-    const connection = await Connection.findById(connectionId).populate("sender receiver", "_id");
+    const connection = await Connection.findById(connectionId).populate("sender receiver",);
     if (!connection) {
       return res.status(400).json({ message: "Connection does not exist." });
     }
@@ -69,6 +80,13 @@ export const acceptConnection = async (req, res) => {
     }
 
     connection.status = "accepted";
+    // for connection accepted notification
+    let notification = await Notification.create({
+      receiver: connection.sender,
+      type: "connectionAccepted",
+      relatedUser: userid,
+
+    })
     await connection.save();
 
     await User.findByIdAndUpdate(req.userId, {

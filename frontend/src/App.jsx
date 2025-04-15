@@ -7,6 +7,7 @@ import { userDataContext } from './context/UserContext'
 import { Navigate } from 'react-router-dom'
 import Network from './pages/Network'
 import Profile from './pages/Profile'
+import Notification from './pages/Notification'
 
 const App = () => {
   let { userData } = useContext(userDataContext)
@@ -17,6 +18,7 @@ const App = () => {
       <Route path="/login" element={userData ? <Navigate to="/" /> : <Login />} />
       <Route path="/network" element={userData ? <Network /> : <Navigate to="/login" />} />
       <Route path="/profile" element={userData ? <Profile /> : <Navigate to="/login" />} />
+      <Route path="/notification" element={userData ? <Notification /> : <Navigate to="/login" />} />
     </Routes>
   )
 }

@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import Navbar from '../components/Navbar'
 import profile_image from '../assets/profile_image.webp'
 import { FiPlus } from "react-icons/fi";
@@ -14,13 +14,14 @@ import Post from '../components/Post';
 
 
 const Home = () => {
-  let { userData, setUserData, edit, setEdit, postData, setPostData } = useContext(userDataContext)
+  let { userData, setUserData, edit, setEdit, postData, setPostData, getPost, handleGetProfile } = useContext(userDataContext)
   let { serverUrl } = useContext(authDataContext)
   let [frontendImage, setFrontendImage] = useState('')
   let [backendImage, setBackendImage] = useState('')
   let [description, setDescription] = useState('')
   let [uploadPost, setUploadPost] = useState(false)
   let [posting, setPosting] = useState(false)
+  let [suggestedUser, setSuggestedUser] = useState([])
   let image = useRef()
 
   function handleImage(e) {
@@ -41,11 +42,32 @@ const Home = () => {
       console.log(result)
       setPosting(false)
       setUploadPost(false)
+      getPost()
     } catch (error) {
-      console.log(error)
       setPosting(false)
+      console.log(error)
     }
   }
+
+  const handleSuggestedUsers = async () => {
+    try {
+      let result = await axios.get(serverUrl + "/api/user/suggestedusers", {
+        withCredentials: true
+      })
+      console.log(result.data)
+      setSuggestedUser(result.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    handleSuggestedUsers()
+  }, [])
+
+  // useEffect(()=>{
+  //   getPost()
+  // },[uploadPost])
 
   return (
     <div className='w-full min-h-[100vh] bg-[#f0efe7] pt-[100px] flex items-center lg:items-start lg:justify-center gap-[20px] px-[20px] flex-col lg:flex-row relative pb-[50px]'>
@@ -176,8 +198,36 @@ const Home = () => {
 
       </div>
       {/* right div */}
-      <div className='w-full lg:w-[25%] min-h-[200px] bg-white shadow-lg'>
+      <div className='w-full lg:w-[25%] min-h-[200px] bg-white shadow-lg hidden lg:flex flex-col p-[20px]'>
+        <h1 className='text-[20px] text-gray-600 font-semibold'>Suggested Users</h1>
+        {
+          suggestedUser.length > 0 && (
+            <div className='flex flex-col gap-[10px] mt-[10px]' >
+              {suggestedUser.map((su) => (
+                <div key={su._id} className='flex gap-[10px] items-center border-b p-[5px] rounded-lg hover:bg-gray-100 cursor-pointer' onClick={() => handleGetProfile(su.userName)}>
+                  <div className='w-[40px] h-[40px] rounded-full overflow-hidden'>
+                    <img className='w-full h-full object-cover' src={su.profileImage || profile_image} alt="" />
+                  </div>
+                  <div>
+                    <div className='text-[20px] font-semibold text-gray-700'>
+                      {`${su.firstName} ${su.lastName}`}
+                    </div>
+                    <div className='text-[12px] font-semibold text-gray-600'>
+                      {su.headline}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )
+        }
 
+
+        {
+          suggestedUser.length === 0 && <div>
+
+          </div>
+        }
       </div>
     </div>
   )

@@ -23,9 +23,9 @@ const isAuth = async (req, res, next) => {
     }
 
     req.userId = verifyToken.userId;
-    console.log("✅ Decoded token userId:", verifyToken.userId);
+    console.log("✅ Decoded token (login user )userId:", verifyToken.userId);
 
-    next();
+    next();  //  // go to the next function: sendConnection
 
   } catch (error) {
     console.error("🔥 isAuth error:", error.message);

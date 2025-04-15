@@ -1,5 +1,6 @@
 import uploadOnCloudinary from "../config/cloudinary.js"
 import { io } from "../index.js";
+import Notification from "../models/notification.model.js";
 import Post from "../models/post.model.js"
 
 export const createPost = async (req, res) => {
@@ -29,7 +30,7 @@ export const createPost = async (req, res) => {
 // controller for post control
 export const getPost = async (req, res) => {
   try {
-    const post = await Post.find().populate("author", "firstName lastName profileImage headline")
+    const post = await Post.find().populate("author", "firstName lastName profileImage headline userName")
       .populate("comments.user", "firstName lastName profileImage headline")
       .sort({ createdAt: -1 })
     return res.status(200).json(post)
@@ -54,10 +55,19 @@ export const like = async (req, res) => {
       post.likes = post.likes.filter((id) => id != userId)
     } else {
       post.likes.push(userId)
+      if (post.author != userId) {
+        // for notification
+        let notification = await Notification.create({
+          receiver: post.author,
+          type: "like",
+          relatedUser: userId,
+          relatedPost: postId
+        })
+      }
     }
     await post.save()
     // real time like update
-    io.emit("likeUpdated",{postId,likes:post.likes})
+    io.emit("likeUpdated", { postId, likes: post.likes })
 
     res.status(200).json(post)
   } catch (error) {
@@ -78,6 +88,15 @@ export const comment = async (req, res) => {
       $push: { comments: { content, user: userId } }
     }, { new: true })
       .populate("comments.user", "firstName lastName profileImage headline")
+    if (post.author != userId) {
+      // for comment notification
+      let notification = await Notification.create({
+        receiver: post.author,
+        type: "comment",
+        relatedUser: userId,
+        relatedPost: postId
+      })
+    }
     // real time like update
     io.emit("commentAdded", { postId, comm: post.comments })
 
