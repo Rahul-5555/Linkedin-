@@ -65,7 +65,7 @@ const Navbar = () => {
           {searchData.map((sea) => (
             <div className='flex gap-[20px] items-center border-b-2 border-b-gray-300 p-[10px] hover:bg-gray-200 cursor-pointer rounded-lg' onClick={() => handleGetProfile(sea.userName)}>
               <div className='w-[70px] h-[70px] rounded-full overflow-hidden'>
-                <img className='w-full h-full' src={sea.profileImage || profile_image} alt="" />
+                <img className='w-full h-full' src={sea?.profileImage || profile_image} alt="" />
               </div>
               <div>
                 <div className='text-[20px] font-semibold text-gray-700'>
@@ -130,7 +130,7 @@ const Navbar = () => {
           <div className='hidden md:block'>Notifications</div>
         </div>
         <div className='w-[50px] h-[50px] rounded-full overflow-hidden cursor-pointer' onClick={() => setShowPopup(prev => !prev)}>
-          <img src={userData.profileImage || profile_image} alt="" />
+          <img src={userData?.profileImage || profile_image} alt="" />
         </div>
       </div>
     </div>

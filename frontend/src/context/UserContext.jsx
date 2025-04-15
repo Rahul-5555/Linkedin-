@@ -6,6 +6,7 @@ import { io } from 'socket.io-client'
 
 
 export let socket = io("http://localhost:8000")
+// export let socket = io("https://linkedin-backend-l8rc.onrender.com")
 
 export const userDataContext = createContext()
 const UserContext = ({ children }) => {

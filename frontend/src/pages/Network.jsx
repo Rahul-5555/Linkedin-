@@ -9,7 +9,7 @@ import { RxCrossCircled } from "react-icons/rx";
 const Network = () => {
   let { serverUrl } = useContext(authDataContext)
   let [connections, setConnections] = useState([])
-
+  // Removed unused 'socket' variable
   const handleGetRequests = async () => {
     try {
       let result = await axios.get(`${serverUrl}/api/connection/requests`, {
@@ -64,7 +64,7 @@ const Network = () => {
               {/* Left div for profile */}
               <div className='flex justify-center items-center gap-[10px]'>
                 <div className='w-[60px] h-[60px] rounded-full overflow-hidden cursor-pointer'>
-                  <img src={connection.sender.profileImage || profile_image} alt="" className='w-full h-full' />
+                  <img src={connection.sender?.profileImage || profile_image} alt="" className='w-full h-full' />
                 </div>
                 {/* div for name */}
                 <div className='text-[20px] font-semibold text-gray-700'>

@@ -80,12 +80,12 @@ const Home = () => {
       <div className='w-full lg:w-[25%] min-h-[200px] bg-white shadow-lg rounded-lg p-[10px] relative '>
         {/* div for cover image */}
         <div className='w-full h-[100px] bg-gray-400 rounded overflow-hidden flex items-center justify-center relative cursor-pointer' onClick={() => setEdit(true)}>
-          <img src={userData.coverImage || null} alt="" />
+          <img src={userData?.coverImage || null} alt="" />
           <IoCameraOutline className='absolute right-[20px] top-[10px] w-[25px] h-[25px] text-blue-500' />
         </div>
         {/* div for profile image */}
         <div className='w-[70px] h-[70px] rounded-full overflow-hidden flex items-center justify-center absolute top-[65px] left-[35px] border-2 border-white cursor-pointer' onClick={() => setEdit(true)}>
-          <img className='h-full' src={userData.profileImage || profile_image} alt="profile" />
+          <img className='h-full' src={userData?.profileImage || profile_image} alt="profile" />
         </div>
 
         {/* div for + icon */}
@@ -120,7 +120,7 @@ const Home = () => {
           {/* Profile Section */}
           <div className='flex items-center gap-[10px]'>
             <div className='w-[70px] h-[70px] rounded-full overflow-hidden flex items-center justify-center border-2 border-white cursor-pointer'>
-              <img className='h-full' src={userData.profileImage || profile_image} alt="profile" />
+              <img className='h-full' src={userData?.profileImage || profile_image} alt="profile" />
             </div>
             <div className='text-[22px]'>{`${userData.firstName} ${userData.lastName}`}</div>
           </div>
@@ -167,7 +167,7 @@ const Home = () => {
         <div className='w-full h-[120px] bg-white shadow-lg rounded-lg flex items-center justify-center gap-[10px] p-[20px]'>
           {/* div for profile image */}
           <div className='w-[70px] h-[70px] rounded-full overflow-hidden flex items-center justify-center border-2 border-white cursor-pointer'>
-            <img className='h-full' src={userData.profileImage || profile_image} alt="profile" />
+            <img className='h-full' src={userData?.profileImage || profile_image} alt="profile" />
           </div>
           <button className='w-[80%] h-[60px] border-2 border-gray-500 rounded-full flex items-center justify-start px-[20px] hover:bg-gray-200' onClick={() => setUploadPost(true)}>start a post</button>
         </div>
@@ -206,7 +206,7 @@ const Home = () => {
               {suggestedUser.map((su) => (
                 <div key={su._id} className='flex gap-[10px] items-center border-b p-[5px] rounded-lg hover:bg-gray-100 cursor-pointer' onClick={() => handleGetProfile(su.userName)}>
                   <div className='w-[40px] h-[40px] rounded-full overflow-hidden'>
-                    <img className='w-full h-full object-cover' src={su.profileImage || profile_image} alt="" />
+                    <img className='w-full h-full object-cover' src={su?.profileImage || profile_image} alt="" />
                   </div>
                   <div>
                     <div className='text-[20px] font-semibold text-gray-700'>

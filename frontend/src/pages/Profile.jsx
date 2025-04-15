@@ -21,7 +21,7 @@ const Profile = () => {
   // UseEffect for filter post ,only user post
   useEffect(() => {
     setProfilePost(postData.filter((post) =>
-      post.author._id === profileData._id))
+      post.author?._id === profileData._id))
   }, [profileData])
 
   return (
@@ -36,12 +36,12 @@ const Profile = () => {
         <div className='relative bg-[white] pb-[40px] rounded shadow-lg'>
           {/* div for cover image */}
           <div className='w-full h-[100px] bg-gray-400 rounded overflow-hidden flex items-center justify-center relative cursor-pointer' onClick={() => setEdit(true)}>
-            <img src={profileData.coverImage || null} alt="" />
+            <img src={profileData?.coverImage || null} alt="" />
             <IoCameraOutline className='absolute right-[20px] top-[10px] w-[25px] h-[25px] text-blue-500' />
           </div>
           {/* div for profile image */}
           <div className='w-[70px] h-[70px] rounded-full overflow-hidden flex items-center justify-center absolute top-[65px] left-[35px] border-2 border-white cursor-pointer' onClick={() => setEdit(true)}>
-            <img className='h-full' src={profileData.profileImage || profile_image} alt="profile" />
+            <img className='h-full' src={profileData?.profileImage || profile_image} alt="profile" />
           </div>
 
           {/* div for + icon */}
@@ -99,8 +99,8 @@ const Profile = () => {
               Skills
             </div>
             <div className='flex flex-wrap justify-start items-center gap-[10px] text-gray-600 p-[20px]'>
-              {profileData.skills.map((skill) => (
-                <div className='text-[18px]'>{skill}</div>
+              {profileData.skills.map((skill, index) => (
+                <div key={index} className='text-[18px]'>{skill}</div>
               ))}
               {profileData._id === userData._id &&
                 <button className='min-w-[150px] h-[40px] rounded-full border-2 border-[#2dc0ff] ml-[20px] text-[#2dc0ff flex items-center justify-center gap-[10px]' onClick={() => setEdit(true)}>Add Skills</button>

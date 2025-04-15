@@ -33,9 +33,9 @@ const EditProfile = () => {
     description: ""
   })
 
-  let [frontendProfileImage, setFrontendProfileImage] = useState(userData.profileImage || profile_image)
+  let [frontendProfileImage, setFrontendProfileImage] = useState(userData?.profileImage || profile_image)
   let [backendProfileImage, setBackendProfileImage] = useState(null)
-  let [frontendCoverImage, setFrontendCoverImage] = useState(userData.coverImage || null)
+  let [frontendCoverImage, setFrontendCoverImage] = useState(userData?.coverImage || null)
   let [backendCoverImage, setBackendCoverImage] = useState(null)
   const profileImage = useRef()
   const coverImage = useRef()
