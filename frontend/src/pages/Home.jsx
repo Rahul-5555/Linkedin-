@@ -110,7 +110,7 @@ const Home = () => {
 
       {uploadPost && (
         // Div for uploading a post
-        <div className='w-[90%] max-w-[500px] h-[600px] bg-white shadow-lg rounded-lg fixed z-[200] p-[20px] flex flex-col items-start justify-start gap-[20px]'>
+        <div className='w-[100%] max-w-[500px] h-[500px] bg-white shadow-lg rounded-lg fixed z-[200] p-[20px] flex flex-col items-start justify-start gap-[20px]'>
 
           {/* Close Button */}
           <div className='absolute top-[20px] right-[20px] cursor-pointer'>
@@ -127,7 +127,7 @@ const Home = () => {
 
           {/* Textarea */}
           <textarea
-            className={`w-full ${frontendImage ? "h-[200px]" : "h-[550px]"} outline-none border-none p-[10px] resize-none text-[19px]`}
+            className={`w-full ${frontendImage ? "h-[200px]" : "h-[200px]"} outline-none border-none p-[10px] resize-none text-[19px]`}
             placeholder='What do you want to talk about...?'
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -165,16 +165,19 @@ const Home = () => {
       {/* middle div for post */}
       <div className='w-full lg:w-[50%] min-h-[200px] bg-[#f0efe7] shadow-lg flex flex-col gap-[20px]'>
         <div className='w-full h-[120px] bg-white shadow-lg rounded-lg flex items-center justify-center gap-[10px] p-[20px]'>
-          {/* div for profile image */}
-          <div className='w-[70px] h-[70px] rounded-full overflow-hidden flex items-center justify-center border-2 border-white cursor-pointer'>
+          {/* Profile Image */}
+          <div className='w-[50px] h-[50px] md:w-[60px] md:h-[60px] lg:w-[70px] lg:h-[70px] rounded-full overflow-hidden flex items-center justify-center border-2 border-white cursor-pointer'>
             <img className='h-full' src={userData?.profileImage || profile_image} alt="profile" />
           </div>
-          <button className='w-[80%] h-[60px] border-2 border-gray-500 rounded-full flex items-center justify-start px-[20px] hover:bg-gray-200' onClick={() => setUploadPost(true)}>start a post</button>
+
+          {/* Start a post button */}
+          <button className='flex-1 h-[40px] md:h-[50px] lg:h-[60px] border-2 border-gray-500 rounded-full flex items-center justify-start px-[15px] md:px-[20px] hover:bg-gray-200 text-sm md:text-base'
+            onClick={() => setUploadPost(true)}>
+            Start a post
+          </button>
         </div>
 
-        {/* {postData.map((post, index) => (
-          <Post key={index} id={post._id} description={post.description} author={post.author} image={post.image} likes={post.likes} comment={post.comments} createdAt={post.createdAt} />
-        ))} */}
+
         {Array.isArray(postData) && postData.length > 0 ? (
           postData.map((post, index) => (
             post && (

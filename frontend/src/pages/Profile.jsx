@@ -94,69 +94,65 @@ const Profile = () => {
 
         {/* div for skills */}
         {profileData.skills.length > 0 &&
-          <div className='w-full min-h-[100px] flex flex-col gap-[10px] justify-center p-[20px] font-semibold bg-white shadow-lg rounded-lg '>
-            <div className='text-[22px] text-gray-600'>
-              Skills
-            </div>
-            <div className='flex flex-wrap justify-start items-center gap-[10px] text-gray-600 p-[20px]'>
+          <div className='w-full min-h-[100px] flex flex-col gap-[10px] justify-center p-4 sm:p-6 font-semibold bg-white shadow-lg rounded-lg'>
+            <div className='text-[20px] sm:text-[22px] text-gray-600'>Skills</div>
+            <div className='flex flex-wrap gap-3 text-gray-600'>
               {profileData.skills.map((skill, index) => (
-                <div key={index} className='text-[18px]'>{skill}</div>
+                <div key={index} className='text-[16px] sm:text-[18px] bg-gray-100 px-3 py-1 rounded-full'>{skill}</div>
               ))}
               {profileData._id === userData._id &&
-                <button className='min-w-[150px] h-[40px] rounded-full border-2 border-[#2dc0ff] ml-[20px] text-[#2dc0ff flex items-center justify-center gap-[10px]' onClick={() => setEdit(true)}>Add Skills</button>
+                <button className='text-[14px] sm:text-[16px] min-w-[120px] sm:min-w-[150px] h-[35px] sm:h-[40px] rounded-full border-2 border-[#2dc0ff] text-[#2dc0ff] flex items-center justify-center gap-[8px]' onClick={() => setEdit(true)}>
+                  Add Skills
+                </button>
               }
-
             </div>
           </div>
         }
+
 
         {/* div for education */}
         {profileData.education.length > 0 &&
-          <div className='w-full min-h-[100px] flex flex-col gap-[10px] justify-center p-[20px] font-semibold bg-white shadow-lg rounded-lg '>
-            <div className='text-[22px] text-gray-600'>
-              Education
-            </div>
-            <div className='flex flex-col justify-start items-start gap-[10px] text-gray-600 p-[20px]'>
-              {profileData.education.map((edu) => (
-                <>
-                  <div className='text-[18px]'>College: {edu.college}</div>
-                  <div className='text-[18px]'>Degree: {edu.degree}</div>
-                  <div className='text-[18px]'>Field of study: {edu.fieldOfStudy}</div>
-                </>
+          <div className='w-full min-h-[100px] flex flex-col gap-[10px] justify-center p-4 sm:p-6 font-semibold bg-white shadow-lg rounded-lg'>
+            <div className='text-[20px] sm:text-[22px] text-gray-600'>Education</div>
+            <div className='flex flex-col gap-4 text-gray-600'>
+              {profileData.education.map((edu, index) => (
+                <div key={index} className='text-[16px] sm:text-[18px] bg-gray-50 p-3 rounded-lg shadow-sm'>
+                  <div><strong>College:</strong> {edu.college}</div>
+                  <div><strong>Degree:</strong> {edu.degree}</div>
+                  <div><strong>Field of Study:</strong> {edu.fieldOfStudy}</div>
+                </div>
               ))}
               {profileData._id === userData._id &&
-                <button className='min-w-[150px] h-[40px] rounded-full border-2 border-[#2dc0ff] ml-[20px] text-[#2dc0ff flex items-center justify-center gap-[10px]' onClick={() => setEdit(true)}>
+                <button className='text-[14px] sm:text-[16px] min-w-[120px] sm:min-w-[150px] h-[35px] sm:h-[40px] rounded-full border-2 border-[#2dc0ff] text-[#2dc0ff] flex items-center justify-center gap-[8px]' onClick={() => setEdit(true)}>
                   Add Education
                 </button>
               }
-
             </div>
           </div>
         }
+
 
         {/* div for experience  experience */}
         {profileData.experience.length > 0 &&
-          <div className='w-full min-h-[100px] flex flex-col gap-[10px] justify-center p-[20px] font-semibold bg-white shadow-lg rounded-lg '>
-            <div className='text-[22px] text-gray-600'>
-              Experience
-            </div>
-            <div className='flex flex-col justify-start items-start gap-[10px] text-gray-600 p-[20px]'>
+          <div className='w-full min-h-[100px] flex flex-col gap-[10px] justify-center p-4 sm:p-6 font-semibold bg-white shadow-lg rounded-lg'>
+            <div className='text-[20px] sm:text-[22px] text-gray-600'>Experience</div>
+            <div className='flex flex-col gap-4 text-gray-600'>
               {profileData.experience.map((ex, index) => (
-                <div key={index} className='flex flex-col gap-1'>
-                  <div className='text-[18px]'>Title: {ex.title}</div>
-                  <div className='text-[18px]'>Company: {ex.company}</div>
-                  <div className='text-[18px]'>Description: {ex.description}</div>
+                <div key={index} className='text-[16px] sm:text-[18px] bg-gray-50 p-3 rounded-lg shadow-sm'>
+                  <div><strong>Title:</strong> {ex.title}</div>
+                  <div><strong>Company:</strong> {ex.company}</div>
+                  <div><strong>Description:</strong> {ex.description}</div>
                 </div>
               ))}
-              {
-                profileData._id === userData._id && <button className='min-w-[150px] h-[40px] rounded-full border-2 border-[#2dc0ff] ml-[20px] text-[#2dc0ff flex items-center justify-center gap-[10px]' onClick={() => setEdit(true)}>
+              {profileData._id === userData._id &&
+                <button className='text-[14px] sm:text-[16px] min-w-[120px] sm:min-w-[150px] h-[35px] sm:h-[40px] rounded-full border-2 border-[#2dc0ff] text-[#2dc0ff] flex items-center justify-center gap-[8px]' onClick={() => setEdit(true)}>
                   Add Experience
                 </button>
               }
-
             </div>
           </div>
         }
+
 
       </div>
     </div>

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { authDataContext } from '../context/AuthContext';
 import axios from 'axios';
-import socket from '../utils/socket';   // ✅ imported centralized socket instance
+import socket from '../utils/socket';
 import { userDataContext } from '../context/UserContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -42,7 +42,7 @@ function ConnectionButton({ userId }) {
   };
 
   useEffect(() => {
-    if (!userData?._id || !userId) return;  // ✅ check both userData._id and userId
+    if (!userData?._id || !userId) return;
 
     if (!socket.connected) {
       socket.connect();
@@ -77,13 +77,13 @@ function ConnectionButton({ userId }) {
   const getButtonText = () => {
     switch (status) {
       case "connect":
-        return "Connect";
+        return "Follow";
       case "pending":
         return "Pending...";
       case "received":
         return "Received";
       case "disconnect":
-        return "Disconnect";
+        return "Unfollow";
       default:
         return "Loading...";
     }
@@ -91,7 +91,11 @@ function ConnectionButton({ userId }) {
 
   return (
     <button
-      className={`min-w-[100px] h-[40px] rounded-full border-2 ${status === "disconnect" ? 'border-red-500 text-red-500' : 'border-[#2dc0ff] text-[#2dc0ff]'} `}
+      className={`px-4 py-2 md:px-5 md:py-2.5 text-sm md:text-base font-semibold rounded-full transition-colors duration-300 
+      ${status === "disconnect"
+          ? 'border-red-500 text-red-500 hover:bg-red-100'
+          : 'border-[#2dc0ff] text-[#2dc0ff] hover:bg-[#e6f8ff]'}
+      border disabled:opacity-50 disabled:cursor-not-allowed`}
       onClick={handleClick}
       disabled={loading || status === "pending"}
     >
