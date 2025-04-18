@@ -8,10 +8,10 @@ import EditProfile from '../components/EditProfile';
 import Post from '../components/Post';
 import ConnectionButton from '../components/ConnectionButton';
 import { userDataContext } from '../context/UserContext';
-// import { authDataContext } from '../context/AuthContext';
+import { authDataContext } from '../context/AuthContext';
 
 const Profile = () => {
-  // const { serverUrl } = useContext(authDataContext);
+  const { serverUrl } = useContext(authDataContext);
   const {
     userData, setEdit, edit,
     postData, profileData
