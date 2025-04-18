@@ -9,8 +9,9 @@ import { authDataContext } from '../context/AuthContext';
 import axios from 'axios';
 import { socket, userDataContext } from '../context/UserContext';
 import ConnectionButton from './ConnectionButton';
+import { MdDelete } from "react-icons/md";
 
-function Post({ id, author, likes, comment, description, image, createdAt }) {
+function Post({ id, author, likes, comment, description, image, createdAt, onDelete }) {
   const [readMore, setReadMore] = useState(false);
   const { serverUrl } = useContext(authDataContext);
   const { userData, handleGetProfile } = useContext(userDataContext);
@@ -18,6 +19,7 @@ function Post({ id, author, likes, comment, description, image, createdAt }) {
   const [comments, setComments] = useState(comment);
   const [commentContent, setCommentContent] = useState("");
   const [showComment, setShowComment] = useState(false);
+
 
   const handleLike = async () => {
     try {
@@ -44,6 +46,25 @@ function Post({ id, author, likes, comment, description, image, createdAt }) {
     }
   };
 
+  const handleDeletePost = async () => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this post?");
+    if (!confirmDelete) return;
+
+    try {
+      await axios.delete(`${serverUrl}/api/post/post/${id}`, {
+        withCredentials: true
+      });
+
+      // Emit socket event after successful deletion
+      socket.emit("postDeleted", { postId: id });
+
+      if (onDelete) onDelete(id);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
   useEffect(() => {
     socket.on("likeUpdated", ({ postId, likes }) => {
       if (postId === id) {
@@ -57,16 +78,21 @@ function Post({ id, author, likes, comment, description, image, createdAt }) {
       }
     });
 
+    socket.on("postDeleted", ({ postId }) => {
+      if (postId === id) {
+        if (onDelete) onDelete(postId);
+      }
+    });
+
     return () => {
       socket.off("likeUpdated");
       socket.off("commentAdded");
+      socket.off("postDeleted");
     };
-  }, [id]);
+  }, [id, onDelete]);
 
   return (
     <div className='w-full flex flex-col gap-4 bg-white rounded-xl shadow-lg p-4 sm:p-6'>
-   
-      {/* Header */}
       {/* Header */}
       <div className='flex justify-between items-center flex-wrap gap-4'>
         <div
@@ -92,8 +118,16 @@ function Post({ id, author, likes, comment, description, image, createdAt }) {
             <ConnectionButton userId={author?._id} />
           </div>
         )}
-      </div>
 
+        {userData?._id === author?._id && (
+          <button
+            onClick={handleDeletePost}
+            className='text-red-500 text-sm sm:text-base font-semibold rounded-lg hover:text-red-700'
+          >
+            <MdDelete />
+          </button>
+        )}
+      </div>
 
       {/* Description */}
       <div className={`w-full ${!readMore ? "max-h-[100px] overflow-hidden" : ""}`}>
@@ -122,8 +156,8 @@ function Post({ id, author, likes, comment, description, image, createdAt }) {
       </div>
 
       {/* Action Buttons */}
-      <div className='flex items-center gap-6 px-2 sm:px-6'>
-        <div className='flex items-center gap-2 cursor-pointer' onClick={handleLike}>
+      <div className='flex items-center gap-6 px-2 sm:px-6' onClick={handleLike}>
+        <div className='flex items-center gap-2 cursor-pointer' >
           {like.includes(userData._id)
             ? <BiSolidLike className='w-6 h-6 text-[#07a4ff]' />
             : <AiOutlineLike className='w-6 h-6' />}

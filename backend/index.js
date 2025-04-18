@@ -16,7 +16,7 @@ let app = express()
 let server = http.createServer(app)
 export const io = new Server(server, {
   cors: ({
-    origin: "https://linkedin-frontend-2lrq.onrender.com",
+    origin: " http://localhost:5173",
     credentials: true
   })
 })
@@ -25,10 +25,11 @@ app.use(express.json())
 let port = process.env.PORT || 5000
 app.use(cookieParser())
 app.use(cors({
-  origin: "https://linkedin-frontend-2lrq.onrender.com",
+  origin: " http://localhost:5173",
   credentials: true
 }))
 
+// https://linkedin-frontend-2lrq.onrender.com
 // middlewares  
 // http://localhost:8000/api/auth
 app.use("/api/auth", authRouter)

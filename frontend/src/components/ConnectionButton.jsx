@@ -91,9 +91,9 @@ function ConnectionButton({ userId }) {
 
   return (
     <button
-      className={`px-4 py-2 md:px-5 md:py-2.5 text-sm md:text-base font-semibold rounded-full transition-colors duration-300 
+      className={`px-4 py-2 md:px-5 md:py-2.5 text-[12px] md:text-base font-semibold rounded-full si transition-colors duration-300 
       ${status === "disconnect"
-          ? 'border-red-500 text-red-500 hover:bg-red-100'
+          ? 'border-[#2dc0ff] text-[#2dc0ff] hover:bg-[#e6f8ff]'
           : 'border-[#2dc0ff] text-[#2dc0ff] hover:bg-[#e6f8ff]'}
       border disabled:opacity-50 disabled:cursor-not-allowed`}
       onClick={handleClick}
