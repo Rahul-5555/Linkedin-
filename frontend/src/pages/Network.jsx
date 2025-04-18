@@ -9,7 +9,7 @@ import { RxCrossCircled } from "react-icons/rx";
 const Network = () => {
   let { serverUrl } = useContext(authDataContext)
   let [connections, setConnections] = useState([])
-  // Removed unused 'socket' variable
+  
   const handleGetRequests = async () => {
     try {
       let result = await axios.get(`${serverUrl}/api/connection/requests`, {
