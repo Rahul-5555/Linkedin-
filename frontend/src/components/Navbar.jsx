@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import logo2 from '../assets/logo2.png'
+import logo3 from '../assets/logo3.png'
 import { FaSearch } from "react-icons/fa";
 import { IoIosHome } from "react-icons/io";
 import { FaUserFriends } from "react-icons/fa";
@@ -59,7 +59,7 @@ const Navbar = () => {
           setActiveSearch(false)
           navigate("/")
         }}>
-          <img className='w-[36px] sm:w-[40px] md:w-[48px]' src={logo2} alt="" />
+          <img className='mix-blend-multiply bg-[white] w-[90px] ' src={logo3} alt="" />
         </div>
 
         {!activeSearch && (
