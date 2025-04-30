@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import logo from '../assets/logo.svg'
+import logo3 from '../assets/logo3.png'
 import { useNavigate } from 'react-router-dom'
 import { authDataContext } from '../context/AuthContext'
 import axios from 'axios'
@@ -37,7 +37,11 @@ const Login = () => {
   return (
     <div className='w-full h-screen bg-[white] flex flex-col items-center justify-start'>
       <div className='p-[30px] lg:p-[35px] w-full h-[80px] flex items-center'>
-        <img className='' src={logo} alt="" />
+          <img
+          className="w-[100px] lg:w-[100px] xl:w-[110px] mix-blend-multiply bg-white"
+          src={logo3}
+          alt="logo"
+        />
       </div>
       <form onSubmit={handleSignIn} className='w-[90%] max-w-[400px] h-[600px] md:shadow-xl flex flex-col justify-center gap-[10px] p-[15px]' >
         <h1 className='text-gray-800 text-[30px] font-semibold mb-[30px]'>Sign In</h1>
